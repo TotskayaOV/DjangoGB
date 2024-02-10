@@ -17,7 +17,7 @@ def logger_deco(funk):
 @logger_deco
 def home(request):
     home_html = """
-    <h1>Добро пожаловать на мой сайт!</h1>
+    <h1>Добро пожаловать на мой 2 сайт!</h1>
     <p>Здесь вы не найдете никакого контента.</p>
     """
     return render(request, 'home.html', {'content': home_html})
@@ -27,6 +27,6 @@ def home(request):
 def about(request):
     about_html = """
     <h1>Обо мне</h1>
-    <p>здесь много информации обо мне</p>
+    <p>здесь много информации обо мне 2</p>
     """
     return render(request, 'about.html', {'content': about_html})
