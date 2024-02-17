@@ -1,0 +1,17 @@
+<!-- base.html -->
+
+{% extends 'base.html' %}
+{% block content %}
+    <h1>Заказы клиента {{ client.name }}</h1>
+    <ul>
+        {% for order in orders %}
+            <li>Дата заказа: {{ order.register_date }} - сумма заказа: {{ order.cost }} руб.</li>
+            <ul>
+                {% for product in order.product_id.all %}
+                    <li>{{ product.name }} - {{ product.price }} руб.</li>
+                {% endfor %}
+            </ul>
+        {% endfor %}
+    </ul>
+{% endblock %}
+
