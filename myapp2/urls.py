@@ -1,6 +1,8 @@
 from django.urls import path
 from . import views
 from .views import ProductsHistoryView, ClientOrdersView, create_product, success_page, edit_product
+from django.conf import settings
+from django.conf.urls.static import static
 
 
 urlpatterns =[
@@ -12,3 +14,7 @@ urlpatterns =[
     path('success/', success_page, name='success_page'),
     path('edit_product/<int:product_id>/', edit_product, name='edit_product'),
 ]
+
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
