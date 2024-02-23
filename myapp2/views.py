@@ -1,6 +1,6 @@
 import logging
 from django.shortcuts import render, redirect, reverse
-from django.http import HttpResponse
+from django.db.models import Count
 from django.views.generic import TemplateView
 from datetime import datetime, timedelta
 from .models import Order, Product, Client
@@ -55,15 +55,20 @@ class ProductsHistoryView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         client_id = self.kwargs.get('client_id')
+
         orders_7_days = Order.objects.filter(client_id=client_id,
-                                             register_date__gte=datetime.today() - timedelta(days=7)).distinct()
+                                             register_date__gte=datetime.today() - timedelta(days=7))
         orders_30_days = Order.objects.filter(client_id=client_id,
-                                              register_date__gte=datetime.today() - timedelta(days=30)).distinct()
+                                              register_date__gte=datetime.today() - timedelta(days=30))
         orders_365_days = Order.objects.filter(client_id=client_id,
-                                               register_date__gte=datetime.today() - timedelta(days=365)).distinct()
-        products_7_days = Product.objects.filter(order__in=orders_7_days).distinct()
-        products_30_days = Product.objects.filter(order__in=orders_30_days).distinct()
-        products_365_days = Product.objects.filter(order__in=orders_365_days).distinct()
+                                               register_date__gte=datetime.today() - timedelta(days=365))
+
+        products_7_days = Product.objects.filter(order__in=orders_7_days).annotate(num_orders=Count('order')).filter(
+            num_orders__gt=0).distinct()
+        products_30_days = Product.objects.filter(order__in=orders_30_days).annotate(num_orders=Count('order')).filter(
+            num_orders__gt=0).distinct()
+        products_365_days = Product.objects.filter(order__in=orders_365_days).annotate(
+            num_orders=Count('order')).filter(num_orders__gt=0).distinct()
         context['client'] = Client.objects.get(pk=client_id)
         context['products_7_days'] = products_7_days
         context['products_30_days'] = products_30_days
