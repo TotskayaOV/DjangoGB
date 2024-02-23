@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Мой Django Сайт магазина{% endblock %}</title>
+</head>
+<body>
+    <header style="display: flex; justify-content: space-around; background-color: #f5c0c0; color: white; padding: 10px;">
+        <a style="text-decoration: none;" href="/">Главная</a>
+        <a style="text-decoration: none;" href="/about">О магазине</a>
+        <a style="text-decoration: none;" href="/create_product/">Форма загрузки продуктов</a>
+    </header>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer style="display: flex; justify-content: space-around; background-color: #f5c0c0; color: white; padding: 10px;">
+        <p>© 2023  Brand.</p>
+    </footer>
+</body>
+</html>

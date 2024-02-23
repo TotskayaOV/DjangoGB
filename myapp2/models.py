@@ -14,6 +14,7 @@ class Product(models.Model):
     description = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
     count = models.IntegerField(default=0)
+    image = models.ImageField(upload_to='product_images/', null=True, blank=True)  # Добавлено поле для фотографии
     register_date = models.DateTimeField(auto_now=True)
 
 
