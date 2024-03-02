@@ -12,7 +12,10 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 import os
+from dotenv import load_dotenv
 
+
+load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -21,12 +24,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-i=y^y1tw&0*=hkb49%ic%u%#)4rxr3#^yo^hs67vdls1av=3y-'
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False if os.environ.get("DEBUG") == "False" else True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["127.0.0.1", "homewebsite.pythonanywhere.com"]
 
 
 # Application definition
@@ -77,9 +82,16 @@ WSGI_APPLICATION = 'DjangoGB.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": os.getenv("MYSQL_DBNAME"),
+        "USER": os.getenv("MYSQL_USER"),
+        "PASSWORD": os.getenv("MYSQL_PASSWORD"),
+        "HOST": os.getenv("MYSQL_HOST"),
+        "OPTIONS": {
+            "init_command": "SET NAMES 'utf8mb4';SET sql_mode = 'STRICT_TRANS_TABLES'",
+            "charset": "utf8mb4",
+        },
     }
 }
 
@@ -118,7 +130,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
+# STATIC_URL = 'static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
@@ -159,5 +171,10 @@ LOGGING = {
     },
 }
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# MEDIA_URL = '/media/'
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+STATIC_URL = "static/"
+STATIC_ROOT = BASE_DIR / "static/"
+
+MEDIA_URL = "media/"
+MEDIA_ROOT = BASE_DIR / "media/"
