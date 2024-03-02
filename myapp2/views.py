@@ -1,4 +1,3 @@
-import logging
 from django.shortcuts import render, redirect, reverse
 from django.db.models import Count
 from django.views.generic import TemplateView
@@ -7,18 +6,6 @@ from .models import Order, Product, Client
 from .forms import ProductForm
 
 
-logger = logging.getLogger(__name__)
-
-
-def logger_deco(funk):
-    def wrapper(*args, **kwargs):
-        request = args[0]
-        logger.info(f"Посещена страница: {request.path}")
-        return funk(*args, **kwargs)
-    return wrapper
-
-
-@logger_deco
 def home(request):
     home_html = """
     <h1>Добро пожаловать на мой 2 сайт!</h1>
@@ -27,7 +14,6 @@ def home(request):
     return render(request, 'home.html', {'content': home_html})
 
 
-@logger_deco
 def about(request):
     about_html = """
     <h1>Обо мне</h1>
