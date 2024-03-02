@@ -8,6 +8,9 @@ class Client(models.Model):
     address = models.CharField(max_length=100)
     register_date = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return self.name
+
 
 class Product(models.Model):
     name = models.CharField(max_length=100)
@@ -16,6 +19,9 @@ class Product(models.Model):
     count = models.IntegerField(default=0)
     image = models.ImageField(upload_to='product_images/', null=True, blank=True)  # Добавлено поле для фотографии
     register_date = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.name
 
 
 class Order(models.Model):
